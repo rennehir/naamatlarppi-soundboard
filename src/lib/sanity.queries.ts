@@ -34,3 +34,41 @@ export interface Post {
   mainImage?: ImageAsset
   body: PortableTextBlock[]
 }
+
+export interface Effect {
+  _key: string
+  title: string
+  effect: {
+    _type: string
+    asset: {
+      url: string
+    }
+  }
+}
+
+export interface Soundboard {
+  effects: Effect[]
+}
+
+export const soundboardQuery = groq`
+  *[_type == 'soundboard' && _id == 'soundboard'][0] {
+    _type,
+    _id,
+    _createdAt,
+    effects[] {
+      _type,
+      _key,
+      title,
+      effect {
+        _type,
+        asset-> {
+          url,
+        }
+      }
+    }
+  }
+`
+
+export async function getSoundboard(client: SanityClient): Promise<Soundboard> {
+  return await client.fetch(soundboardQuery)
+}

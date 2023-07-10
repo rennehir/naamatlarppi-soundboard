@@ -1,9 +1,10 @@
 import { SchemaTypeDefinition } from 'sanity'
 
 import blockContent from './blockContent'
-import post from './post'
+import effect from './effect'
+import soundboard from './soundboard'
 
-export const schemaTypes = [post, blockContent]
+export const schemaTypes = [blockContent, effect, soundboard]
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, blockContent],
+  types: [blockContent, effect, soundboard],
 }

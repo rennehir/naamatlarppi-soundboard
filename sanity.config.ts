@@ -25,7 +25,19 @@ export default defineConfig({
   //edit schemas in './src/schemas'
   schema,
   plugins: [
-    deskTool(),
+    deskTool({
+      structure: (S) =>
+        S.list()
+          .title('Content')
+          .items([
+            S.listItem()
+              .title('Soundboard')
+              .id('soundboard')
+              .child(
+                S.document().schemaType('soundboard').documentId('soundboard')
+              ),
+          ]),
+    }),
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),

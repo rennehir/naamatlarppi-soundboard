@@ -1,5 +1,6 @@
 import '~/styles/global.css'
 
+import { ChakraProvider } from '@chakra-ui/react'
 import { IBM_Plex_Mono, Inter, PT_Serif } from '@next/font/google'
 import type { AppProps } from 'next/app'
 import { lazy } from 'react'
@@ -46,13 +47,15 @@ export default function App({
           }
         `}
       </style>
-      {draftMode ? (
-        <PreviewProvider token={token}>
+      <ChakraProvider>
+        {draftMode ? (
+          <PreviewProvider token={token}>
+            <Component {...pageProps} />
+          </PreviewProvider>
+        ) : (
           <Component {...pageProps} />
-        </PreviewProvider>
-      ) : (
-        <Component {...pageProps} />
-      )}
+        )}
+      </ChakraProvider>
     </>
   )
 }
