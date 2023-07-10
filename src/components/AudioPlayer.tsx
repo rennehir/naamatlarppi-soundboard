@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import * as React from 'react'
 
 import { Effect } from '~/lib/sanity.queries'
@@ -36,14 +36,26 @@ const AudioPlayer = (props: AudioPlayerProps) => {
   function playAudio() {
     audioEl.play()
   }
+
   return (
-    <Button
+    <Flex
       onClick={playAudio}
       aria-label="Play audio"
-      border={isPlaying ? 'solid 1px green' : ''}
+      borderWidth={2}
+      borderStyle="solid"
+      borderColor={isPlaying ? 'teal.400' : 'gray.300'}
+      bg="gray.100"
+      borderRadius="sm"
+      h="full"
+      w="30vw"
+      cursor="pointer"
+      padding={2}
+      justifyContent="center"
+      alignItems="center"
+      boxShadow="xl"
     >
-      {props.effect.title}
-    </Button>
+      <Text textAlign="center">{props.effect.title}</Text>
+    </Flex>
   )
 }
 

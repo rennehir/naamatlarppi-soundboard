@@ -1,10 +1,9 @@
-import { Box, HStack } from '@chakra-ui/react'
-import type { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { Flex, Heading, SimpleGrid, Skeleton } from '@chakra-ui/react'
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useLiveQuery } from 'next-sanity/preview'
 
 import AudioPlayer from '~/components/AudioPlayer'
-import Container from '~/components/Container'
-import Welcome from '~/components/Welcome'
+import TwoRowsScroller from '~/components/TwoRowsScroller'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
 import {
@@ -14,7 +13,7 @@ import {
 } from '~/lib/sanity.queries'
 import type { SharedPageProps } from '~/pages/_app'
 
-export const getStaticProps: GetStaticProps<
+export const getServerSideProps: GetServerSideProps<
   SharedPageProps & {
     soundboard: Soundboard
   }
@@ -32,30 +31,22 @@ export const getStaticProps: GetStaticProps<
 }
 
 export default function IndexPage(
-  props: InferGetStaticPropsType<typeof getStaticProps>
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   const [soundboard] = useLiveQuery<Soundboard>(
     props.soundboard,
     soundboardQuery
   )
   return (
-    <Container>
-      <section>
-        {soundboard ? (
-          <Box>
-            <HStack>
-              {soundboard.effects.map((effect) => (
-                <AudioPlayer key={effect._key} effect={effect} />
-              ))}
-            </HStack>
-            <pre>
-              <code>{JSON.stringify(soundboard, null, 2)}</code>
-            </pre>
-          </Box>
-        ) : (
-          <Welcome />
-        )}
-      </section>
-    </Container>
+    <Skeleton isLoaded={!!soundboard}>
+      <Flex as="section" height="50vh" direction="column">
+        <Heading>Effects</Heading>
+        <TwoRowsScroller flexGrow={1}>
+          {soundboard.effects.map((effect) => (
+            <AudioPlayer key={effect._key} effect={effect} />
+          ))}
+        </TwoRowsScroller>
+      </Flex>
+    </Skeleton>
   )
 }
