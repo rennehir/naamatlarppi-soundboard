@@ -12,4 +12,11 @@ export default defineType({
       of: [{ type: 'effect' }],
     },
   ],
+  preview: {
+    prepare() {
+      return {
+        title: 'Soundboard',
+      }
+    },
+  },
 })

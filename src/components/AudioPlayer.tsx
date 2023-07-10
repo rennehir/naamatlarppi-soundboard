@@ -37,6 +37,8 @@ const AudioPlayer = (props: AudioPlayerProps) => {
     audioEl.play()
   }
 
+  const { rgb, hex } = props.effect.color ?? {}
+
   return (
     <Flex
       onClick={playAudio}
@@ -44,7 +46,14 @@ const AudioPlayer = (props: AudioPlayerProps) => {
       borderWidth={2}
       borderStyle="solid"
       borderColor={isPlaying ? 'teal.400' : 'gray.300'}
-      bg="gray.100"
+      bg={hex ?? 'gray.100'}
+      color={
+        rgb
+          ? rgb?.r * 0.299 + rgb?.g * 0.587 + rgb?.b * 0.114 > 186 // Magic numbers
+            ? 'black'
+            : 'white'
+          : 'black'
+      }
       borderRadius="sm"
       h="full"
       w="30vw"

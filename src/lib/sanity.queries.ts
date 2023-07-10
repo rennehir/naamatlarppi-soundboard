@@ -44,6 +44,16 @@ export interface Effect {
       url: string
     }
   }
+  color?: {
+    hex: string
+    rgb: {
+      _type: string
+      r: number
+      g: number
+      b: number
+      a: number
+    }
+  }
 }
 
 export interface Soundboard {
@@ -63,6 +73,16 @@ export const soundboardQuery = groq`
         _type,
         asset-> {
           url,
+        }
+      },
+      color {
+        hex,
+        rgb {
+          _type,
+          r,
+          g,
+          b,
+          a
         }
       }
     }
