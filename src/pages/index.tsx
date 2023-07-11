@@ -4,7 +4,6 @@ import { useLiveQuery } from 'next-sanity/preview'
 
 import AudioPlayer from '~/components/AudioPlayer'
 import TwoRowsScroller from '~/components/TwoRowsScroller'
-import YouTubePlayer from '~/components/YouTubePlayer'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
 import {
