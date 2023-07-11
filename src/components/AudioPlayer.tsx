@@ -1,47 +1,58 @@
 import { Flex, Text } from '@chakra-ui/react'
 import * as React from 'react'
 
-import { Effect } from '~/lib/sanity.queries'
+import { Audio as AudioType, Color } from '~/lib/sanity.queries'
 
 interface AudioPlayerProps {
-  effect: Effect
+  audio: AudioType
+  canPause?: boolean
+  color?: Color
+  title: string
 }
 
 const AudioPlayer = (props: AudioPlayerProps) => {
-  const { asset } = props.effect.effect
+  const { audio, canPause, color, title } = props
 
   const [audioEl, setAudioEl] = React.useState<HTMLAudioElement | undefined>()
   const [isPlaying, setIsPlaying] = React.useState(false)
 
   React.useEffect(() => {
-    const audio = new Audio(asset.url)
-    setAudioEl(audio)
+    const audioElement = new Audio(audio.asset.url)
+    setAudioEl(audioElement)
     const handleStateChange = (ev: Event) => {
       if (ev.type === 'play') setIsPlaying(true)
       if (ev.type === 'pause') setIsPlaying(false)
     }
-    audio.addEventListener('play', handleStateChange)
-    audio.addEventListener('pause', handleStateChange)
+    audioElement.addEventListener('play', handleStateChange)
+    audioElement.addEventListener('pause', handleStateChange)
 
     return () => {
-      audio.removeEventListener('play', handleStateChange)
-      audio.removeEventListener('pause', handleStateChange)
+      audioElement.removeEventListener('play', handleStateChange)
+      audioElement.removeEventListener('pause', handleStateChange)
     }
-  }, [asset.url])
+  }, [audio?.asset.url])
 
-  if (!props.effect) {
+  if (!audioEl) {
     return null
+  }
+
+  function playOrPauseAudio() {
+    if (audioEl.paused) {
+      audioEl.play()
+    } else {
+      audioEl.pause()
+    }
   }
 
   function playAudio() {
     audioEl.play()
   }
 
-  const { rgb, hex } = props.effect.color ?? {}
+  const { rgb, hex } = color ?? {}
 
   return (
     <Flex
-      onClick={playAudio}
+      onClick={canPause ? playOrPauseAudio : playAudio}
       aria-label="Play audio"
       borderWidth={2}
       borderStyle="solid"
@@ -61,9 +72,9 @@ const AudioPlayer = (props: AudioPlayerProps) => {
       padding={2}
       justifyContent="center"
       alignItems="center"
-      boxShadow="xl"
+      boxShadow="lg"
     >
-      <Text textAlign="center">{props.effect.title}</Text>
+      <Text textAlign="center">{title}</Text>
     </Flex>
   )
 }

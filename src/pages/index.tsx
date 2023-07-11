@@ -4,6 +4,7 @@ import { useLiveQuery } from 'next-sanity/preview'
 
 import AudioPlayer from '~/components/AudioPlayer'
 import TwoRowsScroller from '~/components/TwoRowsScroller'
+import YouTubePlayer from '~/components/YouTubePlayer'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
 import {
@@ -40,10 +41,29 @@ export default function IndexPage(
   return (
     <Skeleton isLoaded={!!soundboard}>
       <Flex as="section" height="50vh" direction="column">
+        <Heading>Songs</Heading>
+        <TwoRowsScroller flexGrow={1}>
+          {soundboard.songs.map((song) => (
+            <AudioPlayer
+              key={song._key}
+              title={song.title}
+              audio={song.file}
+              color={song.color}
+              canPause
+            />
+          ))}
+        </TwoRowsScroller>
+      </Flex>
+      <Flex as="section" height="50vh" direction="column">
         <Heading>Effects</Heading>
         <TwoRowsScroller flexGrow={1}>
           {soundboard.effects.map((effect) => (
-            <AudioPlayer key={effect._key} effect={effect} />
+            <AudioPlayer
+              key={effect._key}
+              title={effect.title}
+              audio={effect.effect}
+              color={effect.color}
+            />
           ))}
         </TwoRowsScroller>
       </Flex>

@@ -35,28 +35,58 @@ export interface Post {
   body: PortableTextBlock[]
 }
 
-export interface Effect {
-  _key: string
-  title: string
-  effect: {
-    _type: string
-    asset: {
-      url: string
-    }
+const colorFields = `
+  hex,
+  rgb {
+    _type,
+    r,
+    g,
+    b,
+    a
   }
-  color?: {
-    hex: string
-    rgb: {
-      _type: string
-      r: number
-      g: number
-      b: number
-      a: number
-    }
+`
+export interface Color {
+  hex: string
+  rgb: {
+    _type: string
+    r: number
+    g: number
+    b: number
+    a: number
   }
 }
 
+const audioFields = `
+  _type,
+  asset-> {
+    url,
+  }
+`
+
+export interface Audio {
+  _type: string
+  asset: {
+    url: string
+  }
+}
+
+export interface Effect {
+  _key: string
+  title: string
+  effect: Audio
+  color?: Color
+}
+
+export interface Song {
+  _key: string
+  title: string
+  url: string
+  file: Audio
+  color?: Color
+}
+
 export interface Soundboard {
+  songs: Song[]
   effects: Effect[]
 }
 
@@ -65,25 +95,27 @@ export const soundboardQuery = groq`
     _type,
     _id,
     _createdAt,
+    songs[] {
+      _type,
+      _key,
+      title,
+      url,
+      file {
+        ${audioFields}
+      },
+      color {
+        ${colorFields}
+      }
+    },
     effects[] {
       _type,
       _key,
       title,
       effect {
-        _type,
-        asset-> {
-          url,
-        }
+        ${audioFields}
       },
       color {
-        hex,
-        rgb {
-          _type,
-          r,
-          g,
-          b,
-          a
-        }
+        ${colorFields}
       }
     }
   }

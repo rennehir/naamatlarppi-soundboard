@@ -6,6 +6,12 @@ export default defineType({
   title: 'Soundboard',
   fields: [
     {
+      name: 'songs',
+      title: 'Songs',
+      type: 'array',
+      of: [{ type: 'youtube' }],
+    },
+    {
       name: 'effects',
       title: 'Effects',
       type: 'array',
