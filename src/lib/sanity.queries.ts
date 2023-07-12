@@ -80,7 +80,6 @@ export interface Effect {
 export interface Song {
   _key: string
   title: string
-  url: string
   file: Audio
   color?: Color
 }
@@ -99,7 +98,6 @@ export const soundboardQuery = groq`
       _type,
       _key,
       title,
-      url,
       file {
         ${audioFields}
       },

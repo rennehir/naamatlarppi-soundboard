@@ -14,15 +14,12 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'url',
-      title: 'URL',
-      type: 'string',
-      // validation: (Rule) => Rule.required(),
-    },
-    {
       name: 'file',
       title: 'File',
       type: 'file',
+      options: {
+        accept: 'audio/*',
+      },
       validation: (Rule) => Rule.required(),
     },
     {

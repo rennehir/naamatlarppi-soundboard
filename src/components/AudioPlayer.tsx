@@ -5,13 +5,12 @@ import { Audio as AudioType, Color } from '~/lib/sanity.queries'
 
 interface AudioPlayerProps {
   audio: AudioType
-  canPause?: boolean
   color?: Color
   title: string
 }
 
 const AudioPlayer = (props: AudioPlayerProps) => {
-  const { audio, canPause, color, title } = props
+  const { audio, color, title } = props
 
   const [audioEl, setAudioEl] = React.useState<HTMLAudioElement | undefined>()
   const [isPlaying, setIsPlaying] = React.useState(false)
@@ -41,18 +40,15 @@ const AudioPlayer = (props: AudioPlayerProps) => {
       audioEl.play()
     } else {
       audioEl.pause()
+      audioEl.currentTime = 0
     }
-  }
-
-  function playAudio() {
-    audioEl.play()
   }
 
   const { rgb, hex } = color ?? {}
 
   return (
     <Flex
-      onClick={canPause ? playOrPauseAudio : playAudio}
+      onClick={playOrPauseAudio}
       aria-label="Play audio"
       borderWidth={2}
       borderStyle="solid"

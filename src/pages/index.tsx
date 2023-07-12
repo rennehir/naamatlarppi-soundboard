@@ -48,7 +48,6 @@ export default function IndexPage(
               title={song.title}
               audio={song.file}
               color={song.color}
-              canPause
             />
           ))}
         </TwoRowsScroller>
