@@ -1,6 +1,7 @@
-import { Flex, Heading, SimpleGrid, Skeleton } from '@chakra-ui/react'
+import { Button, Flex, Heading, Skeleton } from '@chakra-ui/react'
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useLiveQuery } from 'next-sanity/preview'
+import { useState } from 'react'
 
 import AudioPlayer from '~/components/AudioPlayer'
 import TwoRowsScroller from '~/components/TwoRowsScroller'
@@ -37,10 +38,25 @@ export default function IndexPage(
     props.soundboard,
     soundboardQuery
   )
+
+  const [stopAll, setStopAll] = useState(false)
+
+  function handleStopAll() {
+    setStopAll(true)
+    setTimeout(() => {
+      setStopAll(false)
+    }, 1000)
+  }
+
   return (
     <Skeleton isLoaded={!!soundboard}>
       <Flex as="section" height="50vh" direction="column">
-        <Heading>Songs</Heading>
+        <Flex justify="space-between">
+          <Heading>Songs</Heading>
+          <Button variant="solid" disabled={stopAll} onClick={handleStopAll}>
+            Stop all
+          </Button>
+        </Flex>
         <TwoRowsScroller flexGrow={1}>
           {soundboard.songs.map((song) => (
             <AudioPlayer
@@ -48,6 +64,7 @@ export default function IndexPage(
               title={song.title}
               audio={song.file}
               color={song.color}
+              stopAll={stopAll}
             />
           ))}
         </TwoRowsScroller>
@@ -61,6 +78,7 @@ export default function IndexPage(
               title={effect.title}
               audio={effect.effect}
               color={effect.color}
+              stopAll={stopAll}
             />
           ))}
         </TwoRowsScroller>

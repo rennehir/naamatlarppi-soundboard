@@ -7,10 +7,11 @@ interface AudioPlayerProps {
   audio: AudioType
   color?: Color
   title: string
+  stopAll: boolean
 }
 
 const AudioPlayer = (props: AudioPlayerProps) => {
-  const { audio, color, title } = props
+  const { audio, color, title, stopAll } = props
 
   const [audioEl, setAudioEl] = React.useState<HTMLAudioElement | undefined>()
   const [isPlaying, setIsPlaying] = React.useState(false)
@@ -30,6 +31,13 @@ const AudioPlayer = (props: AudioPlayerProps) => {
       audioElement.removeEventListener('pause', handleStateChange)
     }
   }, [audio?.asset.url])
+
+  React.useEffect(() => {
+    if (audioEl && stopAll) {
+      audioEl.pause()
+      audioEl.currentTime = 0
+    }
+  }, [audioEl, stopAll])
 
   if (!audioEl) {
     return null
