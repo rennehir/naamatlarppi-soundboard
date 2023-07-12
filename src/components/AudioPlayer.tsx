@@ -76,7 +76,8 @@ const AudioPlayer = (props: AudioPlayerProps) => {
       padding={2}
       justifyContent="center"
       alignItems="center"
-      boxShadow="lg"
+      boxShadow={isPlaying ? 'dark-lg' : 'lg'}
+      transition="ease-in-out"
     >
       <Text textAlign="center">{title}</Text>
     </Flex>
