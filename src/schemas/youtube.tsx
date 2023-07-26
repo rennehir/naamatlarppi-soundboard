@@ -28,6 +28,13 @@ export default defineType({
       type: 'color',
       options: {
         disableAlpha: true,
+        colorList: [
+          '#1D2BE0',
+          '#E00E0B',
+          '#676FE0',
+          '#E0C351',
+          '#5CE084'
+        ]
       },
     },
   ],
